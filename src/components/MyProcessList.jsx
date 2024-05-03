@@ -1,4 +1,4 @@
-import {Button, Col, Container, Form, Modal, Row, Table} from "react-bootstrap";
+import {Button, Col, Container, Form, Modal, Row, Spinner, Table} from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
 import {FiltersContext} from "../context/filters.jsx";
 import {nextState} from "../services/myProcess.js";
@@ -40,6 +40,13 @@ export function AvailableNextStates ({myProcess, workflow}) {
   </Form.Select>
 }
 
+export function MySpinner () {
+  return (
+      <Spinner animation="border" role="status">
+        <span className="visually-hidden">Loading...</span>
+      </Spinner>
+  )
+}
 
 export function MyList ( {workflow}) {
 
@@ -77,6 +84,9 @@ export function MyList ( {workflow}) {
   return (
 
       <Container >
+
+        <MySpinner/>
+
         <Row className="mb-3">
           <h2>My Process List</h2>
         </Row>
