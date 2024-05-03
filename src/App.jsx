@@ -22,7 +22,7 @@ function App() {
                 (
                     <>
                         <img src="https://raw.githubusercontent.com/black-and-monkey/state-machine-web/main/src/assets/logo2.webp" className="img-fluid" alt="Responsive image"
-                             style={{ width: '200px', height: '200px' }}></img>
+                             style={{ width: '600px', height: '600px' }}></img>
                         <LoginButton/>
                     </>
                 )

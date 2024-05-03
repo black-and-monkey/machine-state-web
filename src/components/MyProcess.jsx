@@ -1,36 +1,55 @@
 import {Button, FloatingLabel, Form} from "react-bootstrap";
+import {toast, Toaster} from "sonner";
 
 export function MyProcess () {
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
-    const fields = Object.fromEntries(new window.FormData(event.target))
-    console.log(fields.target, "fields",fields)
-  }
+    const handleSubmit = (event) => {
+        event.preventDefault()
 
-  return (
-      <Form onSubmit={handleSubmit}>
-        <Form.Group className="mb-3" controlId="formMyProcess" >
+        const form = event.target
+        const formData = new FormData(form)
 
-          <FloatingLabel controlId="formMyProcessTitle" label="Title" className="mb-3">
-            <Form.Control required type="text" placeholder="Title ..." autoFocus />
-          </FloatingLabel>
+        //https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData
+        const title = formData.get("title")
+        const user = formData.get("user")
+        const summary = formData.get("summary")
 
-          <FloatingLabel controlId="formMyProcessTitle" label="User" className="mb-3">
-            <Form.Control required type="text" placeholder="User ..." />
-          </FloatingLabel>
+        // se podria usar
+        // const fields = Object.fromEntries(new window.FormData(event.target))
 
-          <FloatingLabel controlId="formMyProcessTitle" label="Summary" className="mb-3">
-            <Form.Control required as="textarea" rows={15} placeholder="summary ..."
-            style={{height: '150px'}}/>
-          </FloatingLabel>
+        console.log("fields", {title, user, summary})
+        form.reset()
+        toast.error('Process has not been created !!! TODO !!!')
+    }
 
-        </Form.Group>
+    return (
 
-        <Button variant="primary" type="submit">
-          save
-        </Button>
-      </Form>
-  )
+        <div>
+            <Toaster/>
+
+            <Form onSubmit={handleSubmit}>
+                <Form.Group className="mb-3" controlId="formMyProcess" >
+
+                    <FloatingLabel controlId="formMyProcessTitle" label="Title" className="mb-3">
+                        <Form.Control name="title" required type="text" placeholder="Title ..." autoFocus />
+                    </FloatingLabel>
+
+                    <FloatingLabel controlId="formMyProcessUser" label="User" className="mb-3">
+                        <Form.Control name="user"  required type="text" placeholder="User ..." />
+                    </FloatingLabel>
+
+                    <FloatingLabel controlId="formMyProcessSummary" label="Summary" className="mb-3">
+                        <Form.Control name="summary" required as="textarea" rows={15} placeholder="summary ..."
+                                      style={{height: '200px'}}/>
+                    </FloatingLabel>
+
+                </Form.Group>
+
+                <Button variant="primary" type="submit">
+                    save
+                </Button>
+            </Form>
+        </div>
+    )
 }
 
