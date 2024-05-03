@@ -1,6 +1,7 @@
 import {getProcessList} from "../services/myProcess";
 import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {FiltersContext} from "../context/filters"
+import {useAuth0} from "@auth0/auth0-react";
 
 export function useMyProcessList ({search}) {
 
@@ -8,6 +9,7 @@ export function useMyProcessList ({search}) {
 
     const [myProcessList, setMyProcessList] = useState()
     const previousSearch = useRef(search)
+    const {getAccessTokenSilently} = useAuth0();
 
     const getMyProcessList = useCallback(async ({search}) => {
 
@@ -15,7 +17,7 @@ export function useMyProcessList ({search}) {
             return
         }
 
-        const newProcessList = await getProcessList({ tenantId : filters.tenantId, workflowId : filters.workflowId, search: search})
+        const newProcessList = await getProcessList({ tenantId : filters.tenantId, workflowId : filters.workflowId, search: search, token: await getAccessTokenSilently()})
         setMyProcessList(newProcessList)
         previousSearch.current = search
 
