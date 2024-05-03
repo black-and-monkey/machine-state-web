@@ -11,15 +11,20 @@ export function useMyProcessList ({search}) {
     const previousSearch = useRef(search)
     const {getAccessTokenSilently} = useAuth0();
 
+    const [loading, setLoading] = useState(true)
+
     const getMyProcessList = useCallback(async ({search}) => {
 
-        if ( !filters.tenantId || !filters.workflowId || (search != '' && search === previousSearch.current )) {
+        if ( !filters.tenantId || !filters.workflowId || (search !== '' && search === previousSearch.current )) {
             return
         }
 
         const newProcessList = await getProcessList({ tenantId : filters.tenantId, workflowId : filters.workflowId, search: search, token: await getAccessTokenSilently()})
+
         setMyProcessList(newProcessList)
         previousSearch.current = search
+        console.log("loading @ service", loading)
+        setLoading(false)
 
     }, [filters.tenantId, filters.workflowId])
 
@@ -27,5 +32,5 @@ export function useMyProcessList ({search}) {
         getMyProcessList({search : ''}).then();
     }, [filters.tenantId, filters.workflowId]);
 
-    return {myProcessList , getMyProcessList}
+    return {myProcessList , getMyProcessList, loading}
 }

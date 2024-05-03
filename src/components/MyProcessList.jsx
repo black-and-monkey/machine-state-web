@@ -24,8 +24,6 @@ export function AvailableNextStates ({myProcess, workflow}) {
     ).then(() => {
       setCurrentState(event.target.value)
     })
-
-
   }
 
   return <Form.Select name="availableStates" onChange={handleSelectChange}>
@@ -40,8 +38,9 @@ export function AvailableNextStates ({myProcess, workflow}) {
   </Form.Select>
 }
 
-export function MySpinner () {
-  return (
+export function MySpinner (isLoading) {
+
+  return isLoading.isLoading && (
       <Spinner animation="border" role="status">
         <span className="visually-hidden">Loading...</span>
       </Spinner>
@@ -55,17 +54,17 @@ export function MyList ( {workflow}) {
 
   const [search, setSearch] = useState('')
 
-  const {myProcessList, getMyProcessList} = useMyProcessList({ search} )
+  const {myProcessList, getMyProcessList, loading} = useMyProcessList({ search} )
 
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  useEffect( () => {
+    //console.log('loading', loading)
+  },[loading])
 
-  const handleRadioChange = (event) => {
-    setSelectedMyProcess( myProcessList?.filter (x => x.id === event.target.value)[0])
-  };
 
   const handleSubmitSearch = (event) => {
     event.preventDefault()
@@ -85,7 +84,7 @@ export function MyList ( {workflow}) {
 
       <Container >
 
-        <MySpinner/>
+        <MySpinner isLoading = {loading} />
 
         <Row className="mb-3">
           <h2>My Process List</h2>
