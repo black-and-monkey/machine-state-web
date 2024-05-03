@@ -112,7 +112,7 @@ export function MyList ( {workflow}) {
               <Modal.Header closeButton>
                 <Modal.Title>New Process</Modal.Title>
               </Modal.Header>
-              <Modal.Body><MyProcess/></Modal.Body>
+              <Modal.Body> <MyProcess/> </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                   Close

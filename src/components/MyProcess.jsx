@@ -1,7 +1,16 @@
 import {Button, FloatingLabel, Form} from "react-bootstrap";
 import {toast, Toaster} from "sonner";
+import {createProcess} from "../services/myProcess.js";
+import {useContext} from "react";
+import {FiltersContext} from "../context/filters.jsx";
+import {useAuth0} from "@auth0/auth0-react";
 
 export function MyProcess () {
+
+    const {filters} = useContext(FiltersContext)
+
+    const { user} = useAuth0();
+
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -17,9 +26,18 @@ export function MyProcess () {
         // se podria usar
         // const fields = Object.fromEntries(new window.FormData(event.target))
 
-        console.log("fields", {title, user, summary})
         form.reset()
-        toast.error('Process has not been created !!! TODO !!!')
+
+        createProcess ({
+            'tenantId' : filters.tenantId,
+            'workflowId': filters.workflowId,
+            'user' : user,
+            'title': title,
+            'summary' : summary,
+            'token' : 'some-token'
+        }).then( () => toast.info('Process created ! '))
+
+
     }
 
     return (
@@ -35,7 +53,7 @@ export function MyProcess () {
                     </FloatingLabel>
 
                     <FloatingLabel controlId="formMyProcessUser" label="User" className="mb-3">
-                        <Form.Control name="user"  required type="text" placeholder="User ..." />
+                        <Form.Control name="user" required type="text" placeholder="User ..." value={user.name} />
                     </FloatingLabel>
 
                     <FloatingLabel controlId="formMyProcessSummary" label="Summary" className="mb-3">
