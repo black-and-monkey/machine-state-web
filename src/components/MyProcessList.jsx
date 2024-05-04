@@ -1,7 +1,7 @@
 import {Button, Col, Container, Form, Modal, Row, Spinner, Table} from "react-bootstrap";
 import {useContext, useEffect, useState} from "react";
 import {FiltersContext} from "../context/filters.jsx";
-import {nextState} from "../services/myProcess.js";
+import {createProcess, nextState} from "../services/myProcess.js";
 import {useMyProcessList} from "../hooks/useMyProcessList.js";
 import {MyProcess} from "./MyProcess.jsx";
 import {toast, Toaster} from "sonner";
@@ -89,6 +89,18 @@ export function MyList ( {workflow}) {
      toast.error('TODO EDIT !!!');
   }
 
+  function localCreate  ({tenantId, workflowId, user, title, summary, token} ) {
+    createProcess({tenantId, workflowId, user, title, summary, token})
+        .then( ()=>  {
+
+          toast.info("processed created")
+
+          getMyProcessList({search : ''}).then(
+              ()=> setShow(false)
+          )
+        } )
+
+  }
 
   return (
 
@@ -112,7 +124,7 @@ export function MyList ( {workflow}) {
               <Modal.Header closeButton>
                 <Modal.Title>New Process</Modal.Title>
               </Modal.Header>
-              <Modal.Body> <MyProcess/> </Modal.Body>
+              <Modal.Body> <MyProcess createOrUpdate={localCreate}/> </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                   Close

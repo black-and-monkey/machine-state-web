@@ -1,4 +1,4 @@
-import {getProcessList} from "../services/myProcess";
+import { getProcessList} from "../services/myProcess";
 import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import {FiltersContext} from "../context/filters"
 import {useAuth0} from "@auth0/auth0-react";
@@ -25,7 +25,7 @@ export function useMyProcessList ({search}) {
                 workflowId : filters.workflowId,
                 search: search,
                 token: await getAccessTokenSilently()}
-        )
+        ).then( response => response.json())
 
         setMyProcessList(newProcessList)
         previousSearch.current = search

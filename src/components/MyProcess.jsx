@@ -1,16 +1,15 @@
 import {Button, FloatingLabel, Form} from "react-bootstrap";
-import {toast, Toaster} from "sonner";
-import {createProcess} from "../services/myProcess.js";
+import {Toaster} from "sonner";
+
 import {useContext} from "react";
 import {FiltersContext} from "../context/filters.jsx";
 import {useAuth0} from "@auth0/auth0-react";
 
-export function MyProcess () {
+export function MyProcess ( {createOrUpdate} ) {
 
     const {filters} = useContext(FiltersContext)
 
     const { user} = useAuth0();
-
 
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -28,15 +27,14 @@ export function MyProcess () {
 
         form.reset()
 
-        createProcess ({
+        createOrUpdate ({
             'tenantId' : filters.tenantId,
             'workflowId': filters.workflowId,
             'user' : user,
             'title': title,
             'summary' : summary,
             'token' : 'some-token'
-        }).then( () => toast.info('Process created ! '))
-
+        })
 
     }
 
