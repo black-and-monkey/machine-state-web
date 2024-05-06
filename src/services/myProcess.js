@@ -46,3 +46,15 @@ export function createProcess({tenantId, workflowId, user, title, summary, token
     })
 }
 
+export function deleteMyProcess({tenantId, workflowId,myProcessId, token} )  {
+    const url = `${myStateMachineUrl}/v-jstate/tenant/${tenantId}/workflow/${workflowId}/my-process/${myProcessId}`
+
+    return fetch(url, {
+        method: 'DELETE',
+        headers:
+            {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+    })
+}
